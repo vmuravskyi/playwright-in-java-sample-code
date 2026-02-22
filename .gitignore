@@ -19,3 +19,5 @@ buildNumber.properties
 .allure
 allure-results
 .idea
+.playwright-mcp
+.claude

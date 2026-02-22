@@ -31,6 +31,12 @@ public class SearchComponent {
         });
     }
 
+    public void filterByBrand(String brandName) {
+        page.waitForResponse("**/products?**by_brand=**", () -> {
+            page.getByLabel(brandName).click();
+        });
+    }
+
     public void sortBy(String sortFilter) {
         page.waitForResponse("**/products?page=0&sort=**", () -> {
             page.getByTestId("sort").selectOption(sortFilter);
