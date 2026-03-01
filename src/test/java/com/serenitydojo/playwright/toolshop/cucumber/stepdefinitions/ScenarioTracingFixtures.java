@@ -4,14 +4,15 @@ import com.microsoft.playwright.Tracing;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import net.serenitybdd.playwright.PlaywrightBrowserManager;
 
 import java.nio.file.Paths;
 
 public class ScenarioTracingFixtures {
 
-    @Before
+    @Before(order = 200)
     public void setupTracing() {
-        PlaywrightCucumberFixtures.getBrowserContext().tracing().start(
+        PlaywrightBrowserManager.current().getCurrentContext().tracing().start(
                 new Tracing.StartOptions()
                         .setScreenshots(true)
                         .setSnapshots(true)
@@ -21,11 +22,10 @@ public class ScenarioTracingFixtures {
 
     @After
     public void recordTraces(Scenario scenario) {
-        String traceName = scenario.getName().replace(" ","-").toLowerCase();
-        PlaywrightCucumberFixtures.getBrowserContext().tracing().stop(
+        String traceName = scenario.getName().replace(" ", "-").toLowerCase();
+        PlaywrightBrowserManager.current().getCurrentContext().tracing().stop(
                 new Tracing.StopOptions()
                         .setPath(Paths.get("target/traces/trace-" + traceName + ".zip"))
         );
-
     }
 }

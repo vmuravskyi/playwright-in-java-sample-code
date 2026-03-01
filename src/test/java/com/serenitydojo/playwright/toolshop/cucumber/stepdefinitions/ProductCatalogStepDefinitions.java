@@ -13,6 +13,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.eo.Se;
 import io.cucumber.messages.types.Product;
+import net.serenitybdd.annotations.Steps;
 import org.assertj.core.api.Assertions;
 
 import java.util.List;
@@ -20,16 +21,14 @@ import java.util.Map;
 
 public class ProductCatalogStepDefinitions {
 
+    @Steps
     NavBar navBar;
-    SearchComponent searchComponent;
-    ProductList productList;
 
-    @Before
-    public void setupPageObjects() {
-         navBar = new NavBar(PlaywrightCucumberFixtures.getPage());
-         searchComponent = new SearchComponent(PlaywrightCucumberFixtures.getPage());
-         productList = new ProductList(PlaywrightCucumberFixtures.getPage());
-    }
+    @Steps
+    SearchComponent searchComponent;
+
+    @Steps
+    ProductList productList;
 
     @Given("Sally is on the home page")
     public void sally_is_on_the_home_page() {
