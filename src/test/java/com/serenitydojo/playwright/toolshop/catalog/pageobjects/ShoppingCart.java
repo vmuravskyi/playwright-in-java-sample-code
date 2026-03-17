@@ -12,7 +12,6 @@ public class ShoppingCart {
         this.page = page;
     }
 
-    @Step("Get cart line items")
     public List<CartLineItem> getLineItems() {
         page.locator("app-cart tbody tr").first().waitFor();
         return page.locator("app-cart tbody tr")
