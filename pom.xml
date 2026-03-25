@@ -12,16 +12,32 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <allure.version>2.29.0</allure.version>
         <aspectj.version>1.9.21</aspectj.version>
+        <serenity-bom.version>5.3.7</serenity-bom.version>
+        <cucumber-bom.version>7.34.2</cucumber-bom.version>
+        <junit-bom.version>6.0.3</junit-bom.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-bom</artifactId>
-                <version>${allure.version}</version>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>${cucumber-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.serenity-bdd</groupId>
+                <artifactId>serenity-bom</artifactId>
+                <version>${serenity-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -38,33 +54,47 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.11.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>1.11.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>7.20.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>7.20.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>7.20.1</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!--- SERENITY DEPENDENCIES -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-playwright</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -74,21 +104,6 @@
             <groupId>com.deque.html.axe-core</groupId>
             <artifactId>playwright</artifactId>
             <version>4.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit5</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-junit-platform</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber7-jvm</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -109,17 +124,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <skipTests>true</skipTests>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -134,79 +139,30 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*Tests.java</include>
                     </includes>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>2.15.0</version>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity-bom.version}</version>
                 <configuration>
-                    <reportVersion>${allure.version}</reportVersion>
+                    <tags>${tags}</tags>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>serenity-reports</id>
                         <phase>post-integration-test</phase>
                         <goals>
-                            <goal>report</goal>
+                            <goal>aggregate</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>cucumber</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.5.1</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <argLine>
-                                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                            </argLine>
-                            <includes>
-                                <include>**/cucumber/*Tests.java</include>
-                            </includes>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.aspectj</groupId>
-                                <artifactId>aspectjweaver</artifactId>
-                                <version>${aspectj.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

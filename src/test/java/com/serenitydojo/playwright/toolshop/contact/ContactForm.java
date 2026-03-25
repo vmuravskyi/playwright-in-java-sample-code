@@ -3,8 +3,7 @@ package com.serenitydojo.playwright.toolshop.contact;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import com.microsoft.playwright.options.WaitForSelectorState;
-import com.serenitydojo.playwright.toolshop.fixtures.ScreenshotManager;
+import net.serenitybdd.annotations.Step;
 
 import java.nio.file.Path;
 
@@ -53,8 +52,8 @@ public class ContactForm {
         page.setInputFiles("#attachment", fileToUpload);
     }
 
+    @Step("Submitting the contact form")
     public void submitForm() {
-        ScreenshotManager.takeScreenshot(page,"Submit contact form");
         page.waitForTimeout(250);
         sendButton.click();
     }

@@ -1,19 +1,18 @@
 package com.serenitydojo.playwright.toolshop.contact;
 
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.junit.UsePlaywright;
-import com.microsoft.playwright.options.AriaRole;
 import com.serenitydojo.playwright.toolshop.catalog.pageobjects.NavBar;
 import com.serenitydojo.playwright.toolshop.fixtures.ChromeHeadlessOptions;
-import com.serenitydojo.playwright.toolshop.fixtures.TakesFinalScreenshot;
 import com.serenitydojo.playwright.toolshop.fixtures.WithTracing;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
-import org.assertj.core.api.Assertions;
+import net.serenitybdd.annotations.Feature;
+import net.serenitybdd.annotations.Story;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
+import net.serenitybdd.playwright.junit5.SerenityPlaywrightExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -23,10 +22,12 @@ import java.nio.file.Paths;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
+@ExtendWith(SerenityJUnit5Extension.class)
+@ExtendWith(SerenityPlaywrightExtension.class)
 @DisplayName("Contact form")
 @Feature("Contacts")
 @UsePlaywright(ChromeHeadlessOptions.class)
-public class ContactFormTest implements TakesFinalScreenshot, WithTracing {
+public class ContactFormTest implements WithTracing {
 
     ContactForm contactForm;
     NavBar navigate;

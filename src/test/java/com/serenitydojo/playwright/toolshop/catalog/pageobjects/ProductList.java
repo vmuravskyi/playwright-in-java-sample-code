@@ -2,7 +2,7 @@ package com.serenitydojo.playwright.toolshop.catalog.pageobjects;
 
 import com.microsoft.playwright.Page;
 import com.serenitydojo.playwright.toolshop.fixtures.ProductSummary;
-import io.qameta.allure.Step;
+import net.serenitybdd.annotations.Step;
 
 import java.util.List;
 
