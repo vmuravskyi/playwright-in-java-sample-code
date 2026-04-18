@@ -1,20 +1,19 @@
 package com.serenitydojo.playwright;
 
-import com.microsoft.playwright.Page;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ASimplePlaywrightTest extends BaseTest {
 
     @Test
-    void shouldShowThePageTitle(Page page) {
+    void shouldShowThePageTitle() {
         page.navigate("https://practicesoftwaretesting.com");
 
         Assertions.assertThat(page.title()).as("").contains("Practice Software Testing");
     }
 
     @Test
-    void shouldSearchByKeywork(Page page) {
+    void shouldSearchByKeywork() {
         page.navigate("https://practicesoftwaretesting.com");
         page.locator("[placeholder=Search]").fill("Pliers");
         page.locator("button:has-text('Search')").click();
