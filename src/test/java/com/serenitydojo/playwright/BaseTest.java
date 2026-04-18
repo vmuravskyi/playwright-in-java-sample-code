@@ -38,29 +38,7 @@ public abstract class BaseTest {
             );
         }
 
-        // login once and save state
-        //generateAuthState();
-    }
-
-    private void generateAuthState() {
-        BrowserContext context = browser.newContext();
-        Page authPage = context.newPage();
-
-        authPage.navigate("https://practicesoftwaretesting.com/login");
-
-        // replace with real login steps
-        authPage.fill("#email", "test@example.com");
-        authPage.fill("#password", "password");
-        authPage.click("button[type='submit']");
-
-        // wait until logged in
-        authPage.waitForURL("**/account");
-
-        // save auth state
-        context.storageState(new BrowserContext.StorageStateOptions()
-            .setPath(Paths.get(AUTH_FILE)));
-
-        context.close();
+        //generateAuthState(); // login once and save state
     }
 
     @BeforeEach
@@ -87,6 +65,27 @@ public abstract class BaseTest {
         if (playwright != null) {
             playwright.close();
         }
+    }
+
+    private void generateAuthState() {
+        BrowserContext context = browser.newContext();
+        Page authPage = context.newPage();
+
+        authPage.navigate("https://practicesoftwaretesting.com/login");
+
+        // replace with real login steps
+        authPage.fill("#email", "test@example.com");
+        authPage.fill("#password", "password");
+        authPage.click("button[type='submit']");
+
+        // wait until logged in
+        authPage.waitForURL("**/account");
+
+        // save auth state
+        context.storageState(new BrowserContext.StorageStateOptions()
+            .setPath(Paths.get(AUTH_FILE)));
+
+        context.close();
     }
 
 }
