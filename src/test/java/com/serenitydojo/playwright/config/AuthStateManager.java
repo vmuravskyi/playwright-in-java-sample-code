@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright;
+package com.serenitydojo.playwright.config;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

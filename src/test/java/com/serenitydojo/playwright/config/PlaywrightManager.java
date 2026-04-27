@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright;
+package com.serenitydojo.playwright.config;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -45,7 +45,11 @@ public final class PlaywrightManager {
 			new BrowserType.LaunchOptions()
 				.setHeadless(false)
 				.setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-			// .setSlowMo(100) // optional for debug
+//				.setEnv(System.getenv())
+//				.setDownloadsPath("target/downloads")
+//				.setHeadless(false)
+//				.setProxy()
+//				.setSlowMo(100) // optional for debug
 		);
 
 		PlaywrightSession session = new PlaywrightSession(playwright, browser);

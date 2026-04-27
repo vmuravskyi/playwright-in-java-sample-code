@@ -10,6 +10,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
+import com.serenitydojo.playwright.config.PlaywrightManager;
+import com.serenitydojo.playwright.config.PlaywrightSuiteExtension;
 
 @ExtendWith(PlaywrightSuiteExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD) // each test method has its own instance of a test class
