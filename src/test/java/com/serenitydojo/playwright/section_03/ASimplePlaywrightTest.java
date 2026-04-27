@@ -1,7 +1,9 @@
-package com.serenitydojo.playwright;
+package com.serenitydojo.playwright.section_03;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.serenitydojo.playwright.BaseTest;
 
 class ASimplePlaywrightTest extends BaseTest {
 
