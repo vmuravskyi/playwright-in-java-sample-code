@@ -41,4 +41,8 @@ public abstract class BaseTest {
 		}
 	}
 
+	public void openPage() {
+		page.navigate("https://practicesoftwaretesting.com/");
+	}
+
 }
