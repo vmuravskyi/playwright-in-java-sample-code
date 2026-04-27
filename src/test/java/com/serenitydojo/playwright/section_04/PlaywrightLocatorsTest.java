@@ -12,6 +12,4 @@ public class PlaywrightLocatorsTest extends BaseTest {
 	// by xpath
 	// by combining selectors
 
-
-
 }
