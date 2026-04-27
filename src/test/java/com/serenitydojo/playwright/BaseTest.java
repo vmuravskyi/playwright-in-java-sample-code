@@ -1,91 +1,42 @@
 package com.serenitydojo.playwright;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
-//@UsePlaywright
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Page;
+
+@ExtendWith(PlaywrightSuiteExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD) // each test method has its own instance of a test class
+@Execution(ExecutionMode.CONCURRENT)
 public abstract class BaseTest {
 
-    protected static final String AUTH_FILE = "target/auth.json";
+	protected BrowserContext browserContext;
+	protected Page page;
 
-    protected static Playwright playwright;
-    protected static Browser browser;
+	@BeforeEach
+	void setupTest() {
+		browserContext = PlaywrightManager.newContext(
+			new Browser.NewContextOptions()
+				.setViewportSize(1920, 1080)
+			// .setStorageStatePath(AuthStateManager.authFile()) // uncomment when login state is implemented
+		);
 
-    protected BrowserContext browserContext;
-    protected Page page;
+		page = browserContext.newPage();
+	}
 
-    @BeforeAll
-    void globalSetup() {
-        if (playwright == null) {
-            playwright = Playwright.create();
-
-            browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions()
-                    .setHeadless(false)
-                    .setArgs(Arrays.asList("--no-sandbox", "--disable-extensions", "--disable-gpu"))
-                    .setSlowMo(100)       // optional for debug
-            );
-        }
-
-        //generateAuthState(); // login once and save state
-    }
-
-    @BeforeEach
-    void setUpTest() {
-        browserContext = browser.newContext(new Browser.NewContextOptions()
-            .setViewportSize(1280, 720)
-        );
-
-        page = browserContext.newPage();
-    }
-
-    @AfterEach
-    void tearDownTest() {
-        if (browserContext != null) {
-            browserContext.close();
-        }
-    }
-
-    @AfterAll
-    void globalTearDown() {
-        if (browser != null) {
-            browser.close();
-        }
-        if (playwright != null) {
-            playwright.close();
-        }
-    }
-
-    private void generateAuthState() {
-        BrowserContext context = browser.newContext();
-        Page authPage = context.newPage();
-
-        authPage.navigate("https://practicesoftwaretesting.com/login");
-
-        // replace with real login steps
-        authPage.fill("#email", "test@example.com");
-        authPage.fill("#password", "password");
-        authPage.click("button[type='submit']");
-
-        // wait until logged in
-        authPage.waitForURL("**/account");
-
-        // save auth state
-        context.storageState(new BrowserContext.StorageStateOptions()
-            .setPath(Paths.get(AUTH_FILE)));
-
-        context.close();
-    }
+	@AfterEach
+	void tearDownTest() {
+		if (browserContext != null) {
+			browserContext.close();
+			browserContext = null;
+			page = null;
+		}
+	}
 
 }
