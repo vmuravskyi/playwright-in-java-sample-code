@@ -1,5 +1,6 @@
 package com.serenitydojo.playwright.section_04;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +30,9 @@ class LocationElementsByTestIdTest extends BaseTest{
 
 		page.getByTestId("search-query").fill("Pliers");
 		page.getByTestId("search-submit").click();
+		Assertions.assertThat(page.getByTestId("search-caption").textContent())
+			.as("")
+			.isEqualTo("Searched for: Pliers");
 	}
 
 }
