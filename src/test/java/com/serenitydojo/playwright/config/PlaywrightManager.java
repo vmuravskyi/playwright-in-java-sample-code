@@ -12,6 +12,8 @@ import com.microsoft.playwright.Playwright;
 
 public final class PlaywrightManager {
 
+	private static final String DEFAULT_TEST_ID_ATTRIBUTE = "data-testid";
+
 	private static final Set<PlaywrightSession> SESSIONS = ConcurrentHashMap.newKeySet();
 
 	private static final ThreadLocal<PlaywrightSession> CURRENT_SESSION = new ThreadLocal<>();
@@ -65,6 +67,17 @@ public final class PlaywrightManager {
 		}
 	}
 
+	public static void setTestIdAttribute(String attributeName) {
+		if (attributeName == null || attributeName.isBlank()) {
+			throw new IllegalArgumentException("attributeName must not be blank");
+		}
+		session().setTestIdAttribute(attributeName);
+	}
+
+	public static void resetTestIdAttribute() {
+		session().setTestIdAttribute(DEFAULT_TEST_ID_ATTRIBUTE);
+	}
+
 	public static void closeAll() {
 		RuntimeException failure = null;
 
@@ -105,6 +118,10 @@ public final class PlaywrightManager {
 
 		private BrowserContext newContext(Browser.NewContextOptions options) {
 			return browser.newContext(options);
+		}
+
+		private void setTestIdAttribute(String attributeName) {
+			playwright.selectors().setTestIdAttribute(attributeName);
 		}
 
 		private boolean isClosed() {
