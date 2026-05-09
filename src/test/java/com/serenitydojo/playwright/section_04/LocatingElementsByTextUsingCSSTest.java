@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.serenitydojo.playwright.BaseTest;
 
 class LocatingElementsByTextUsingCSSTest extends BaseTest {
@@ -22,6 +23,11 @@ class LocatingElementsByTextUsingCSSTest extends BaseTest {
 		page.locator("#first_name").fill("Sarah-Jane");
 		page.locator("#last_name").fill("Smith");
 		page.locator("input:has-text('Send')").click();
+
+		PlaywrightAssertions.assertThat(page.locator("#first_name")).hasValue("Sarah-Jane");
+		PlaywrightAssertions.assertThat(page.locator("#last_name")).hasValue("Smith");
+		PlaywrightAssertions.assertThat(page.locator("#email_alert")).isVisible();
+		PlaywrightAssertions.assertThat(page.locator("#email_alert")).hasText("Email is required");
 	}
 
 	// :text matches the smallest element containing specified text.
