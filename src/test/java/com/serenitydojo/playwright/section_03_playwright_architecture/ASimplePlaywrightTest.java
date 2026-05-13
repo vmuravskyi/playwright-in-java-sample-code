@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.section_03;
+package com.serenitydojo.playwright.section_03_playwright_architecture;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

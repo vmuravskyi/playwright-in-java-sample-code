@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.section_04;
+package com.serenitydojo.playwright.section_04_playwright_locators;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

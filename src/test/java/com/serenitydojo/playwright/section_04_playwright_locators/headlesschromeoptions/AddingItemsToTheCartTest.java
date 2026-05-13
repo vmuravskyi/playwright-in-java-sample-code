@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.section_04.headlesschromeoptions;
+package com.serenitydojo.playwright.section_04_playwright_locators.headlesschromeoptions;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 

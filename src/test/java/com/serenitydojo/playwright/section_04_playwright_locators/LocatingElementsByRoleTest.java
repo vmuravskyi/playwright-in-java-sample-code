@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.section_04;
+package com.serenitydojo.playwright.section_04_playwright_locators;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
