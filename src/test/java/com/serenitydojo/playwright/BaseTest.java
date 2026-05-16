@@ -34,10 +34,13 @@ public abstract class BaseTest {
 
 	@AfterEach
 	void tearDownTest() {
+		if (page != null) {
+			page.close();
+			page = null;
+		}
 		if (browserContext != null) {
 			browserContext.close();
 			browserContext = null;
-			page = null;
 		}
 	}
 
