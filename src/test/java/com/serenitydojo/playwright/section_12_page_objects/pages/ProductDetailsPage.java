@@ -21,7 +21,9 @@ public class ProductDetailsPage extends BasePage {
 	}
 
 	public ProductDetailsPage addToCart() {
-		page.getByText("Add to cart").click();
+		page.waitForResponse(response
+				-> response.url().contains("/carts") && response.request().method().equals("POST"),
+			() -> page.getByText("Add to cart").click());
 		return this;
 	}
 

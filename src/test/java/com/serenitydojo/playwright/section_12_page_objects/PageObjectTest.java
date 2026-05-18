@@ -13,6 +13,7 @@ import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 import com.serenitydojo.playwright.BaseTest;
 import com.serenitydojo.playwright.config.PlaywrightManager;
+import com.serenitydojo.playwright.section_12_page_objects.pages.CartPage;
 import com.serenitydojo.playwright.section_12_page_objects.pages.HomePage;
 
 class PageObjectTest extends BaseTest {
