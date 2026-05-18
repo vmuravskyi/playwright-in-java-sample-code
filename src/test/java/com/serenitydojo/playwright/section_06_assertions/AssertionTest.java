@@ -38,6 +38,8 @@ class AssertionTest extends BaseTest {
 	@DisplayName("Checking the value of a field")
 	@Test
 	void valueFields() {
+		page.getByTestId("nav-contact").click(); // navigate to contact page
+
 		Locator firstName = page.getByLabel("First Name");
 		firstName.fill("John");
 		PlaywrightAssertions.assertThat(firstName).hasValue("John");
