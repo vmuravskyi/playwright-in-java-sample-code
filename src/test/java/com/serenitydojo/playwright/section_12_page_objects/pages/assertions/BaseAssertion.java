@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.section_12_page_objects.assertions;
+package com.serenitydojo.playwright.section_12_page_objects.pages.assertions;
 
 import com.microsoft.playwright.Page;
 

@@ -1,12 +1,12 @@
-package com.serenitydojo.playwright.section_12_page_objects;
+package com.serenitydojo.playwright.section_12_page_objects.pages;
 
 import java.util.List;
 
 import com.microsoft.playwright.Page;
-import com.serenitydojo.playwright.section_12_page_objects.assertions.HomePageAssertions;
-import com.serenitydojo.playwright.section_12_page_objects.components.BasePage;
-import com.serenitydojo.playwright.section_12_page_objects.components.ProductGrid;
-import com.serenitydojo.playwright.section_12_page_objects.components.SearchComponent;
+import com.serenitydojo.playwright.section_12_page_objects.pages.assertions.HomePageAssertions;
+import com.serenitydojo.playwright.section_12_page_objects.pages.components.BasePage;
+import com.serenitydojo.playwright.section_12_page_objects.pages.components.ProductGrid;
+import com.serenitydojo.playwright.section_12_page_objects.pages.components.SearchComponent;
 
 public class HomePage extends BasePage {
 
@@ -19,8 +19,7 @@ public class HomePage extends BasePage {
 		this.productGrid = new ProductGrid(page);
 	}
 
-	@Override
-	protected HomePage navigate() {
+	public HomePage navigate() {
 		page.navigate("https://practicesoftwaretesting.com");
 		return this;
 	}
@@ -36,6 +35,11 @@ public class HomePage extends BasePage {
 
 	public HomePageAssertions verify() {
 		return new HomePageAssertions(page);
+	}
+
+	public ProductDetailsPage viewProductDetails(String productName) {
+		productGrid.clickOnProduct(productName);
+		return new ProductDetailsPage(page);
 	}
 
 }

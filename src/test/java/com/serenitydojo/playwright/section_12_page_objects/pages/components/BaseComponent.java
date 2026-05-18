@@ -1,4 +1,4 @@
-package com.serenitydojo.playwright.section_12_page_objects.components;
+package com.serenitydojo.playwright.section_12_page_objects.pages.components;
 
 import com.microsoft.playwright.Page;
 

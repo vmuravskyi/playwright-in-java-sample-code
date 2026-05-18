@@ -13,6 +13,7 @@ import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import com.microsoft.playwright.options.AriaRole;
 import com.serenitydojo.playwright.BaseTest;
 import com.serenitydojo.playwright.config.PlaywrightManager;
+import com.serenitydojo.playwright.section_12_page_objects.pages.HomePage;
 
 class PageObjectTest extends BaseTest {
 
@@ -36,7 +37,8 @@ class PageObjectTest extends BaseTest {
 		});
 
 		List<String> matchingProducts = page.getByTestId("product-name").allInnerTexts();
-		Assertions.assertThat(matchingProducts).contains("Tape Measure 7.5m", "Measuring Tape", "Tape Measure 5m");
+		Assertions.assertThat(matchingProducts)
+			.contains("Tape Measure 7.5m", "Measuring Tape", "Tape Measure 5m");
 	}
 
 	@DisplayName("With Page Object")
@@ -56,6 +58,7 @@ class PageObjectTest extends BaseTest {
 	@DisplayName("Adding items to the cart without Page Objects")
 	@Test
 	void addingItemToTheCartWithoutPageObjects() {
+		page.navigate("https://practicesoftwaretesting.com");
 		// Search for pliers
 		page.waitForResponse("**/products/search?q=pliers", () -> {
 			page.getByPlaceholder("Search").fill("pliers");
@@ -76,8 +79,29 @@ class PageObjectTest extends BaseTest {
 		page.getByTestId("nav-cart").click();
 
 		// check cart contents
-		PlaywrightAssertions.assertThat(page.locator(".product-title").getByText("Combination Pliers")).isVisible();
-		PlaywrightAssertions.assertThat(page.getByTestId("cart-quantity").getByText("3")).isVisible();
+		PlaywrightAssertions
+			.assertThat(page.locator(".product-title").getByText("Combination Pliers"))
+			.isVisible();
+		PlaywrightAssertions
+			.assertThat(page.getByTestId("cart-quantity").getByText("3"))
+			.isVisible();
 	}
-	
+
+	@DisplayName("Adding items to the cart with Page Objects")
+	@Test
+	void addingItemToTheCartWithPageObjects() {
+		String productName = "Combination Pliers";
+		int expectedProductQuantity = 3;
+
+		new HomePage(page)
+			.navigate()
+			.viewProductDetails(productName)
+			.increaseProductQuantity(productName, 2)
+			.addToCart()
+			.openCart()
+			.verify()
+			.verifyProductExistsInCart(productName)
+			.verifyProductQuantity(productName, expectedProductQuantity);
+	}
+
 }
